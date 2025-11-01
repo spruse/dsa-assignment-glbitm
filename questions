@@ -1,0 +1,80 @@
+class Solution {
+
+     public static TreeNode check_1(TreeNode root , int low){
+         if(root == null)return null;
+
+         if(root.val >= low)return root;
+
+         TreeNode a = check_1(root.left , low);
+         TreeNode b = check_1(root.right , low);
+
+         if(a != null)return a;
+
+         return b;
+     }
+    public static boolean rem(TreeNode root, int low) {
+        if (root == null) return false;
+
+
+        if (root.left != null && root.left.val < low) {
+            TreeNode temp =check_1(root , low) ;
+            root.left = temp;
+            return true;
+        }
+
+        if (root.right != null && root.right.val < low) {
+            TreeNode temp =check_1(root , low) ;
+            root.right = temp;
+            
+            return true;
+        }
+
+        if (rem(root.left, low)) return true;
+        if (rem(root.right, low)) return true;
+
+        return false;
+    }
+
+    
+
+    public TreeNode trimBST(TreeNode root, int low, int high) {
+        rem(root, low);
+        rec(root, high);
+        return root;
+    }
+    public static TreeNode check_2(TreeNode root , int high){
+         if(root == null)return null;
+
+         if(root.val <= high)return root;
+
+         TreeNode a = check_2(root.left , high);
+         TreeNode b = check_2(root.right , high);
+
+         if(a != null)return a;
+
+         return b;
+     }
+
+    public static boolean rec(TreeNode root, int high) {
+        if (root == null) return false;
+
+        if (root.left != null && root.left.val > high) {
+             TreeNode temp =check_2(root , high) ;
+            root.left = temp;
+            
+            return true;
+        }
+
+        if (root.right != null && root.right.val > high) {
+            TreeNode temp =check_2(root , high) ;
+            root.right = temp;
+           
+            return true;
+        }
+
+        if (rec(root.left, high)) return true;
+        if (rec(root.right, high)) return true;
+
+        return false;
+    }
+}

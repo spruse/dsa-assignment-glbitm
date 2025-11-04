@@ -1,0 +1,32 @@
+class Solution {
+    public int minEatingSpeed(int[] a, int h) {
+        long n = a.length;
+        long low = 1;
+        long high = 1;
+        long ans=-1,realans = -1;
+        for(int i = 0;i<n;i++){
+            if(a[i]>high)high = a[i];
+        }
+        if(h==n)return (int)high;
+        while(low<=high){
+            long mid = (low+high)/2;
+             ans= 0;
+            for(int i = 0;i<n;i++){
+                ans += a[i]/mid;
+                if(a[i]%mid>0)ans++;
+            } 
+
+            if(ans<=h){
+                high = mid-1;
+                realans = mid;
+               
+            } 
+            else{
+                  
+                low = mid+1;
+            } 
+            
+        }
+        return (int)realans;
+    }
+}

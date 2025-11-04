@@ -1,0 +1,63 @@
+class Solution {
+    int n;
+    int dp[];
+    public int bs(int a[] , int n){
+        int low = 0;
+        int high = a.length-1;
+
+        int result = -1;
+
+        while(low <= high){
+             int mid = (low+high)/2;
+
+             if(a[mid] > n){
+                result = mid;
+                high = mid-1;
+             }
+             else{
+                low = mid+1;
+             }
+        }
+        return result ; 
+    }
+    public int rec(int s[] , int e[] , int p[] , int i  ){
+        if(i >= n)return 0;
+
+        int take = Integer.MIN_VALUE;
+
+        if(dp[i] != -1)return dp[i];
+
+
+        int next = bs(s , e[i]);
+
+
+        if(next != -1){
+            take = p[i] + rec(s , e , p , next);
+        }
+        int not_take = rec(s , e , p , i+1);
+
+        return dp[i] = Math.max(take , not_take);
+    }
+    public int jobScheduling(int[] s, int[] e, int[] p) {
+        n = s.length;
+        dp = new int [n];
+
+        Arrays.fill(dp , -1);
+        
+        // MINIMAL CHANGE: Sort jobs by start time
+        int[][] jobs = new int[n][3];
+        for(int i = 0; i < n; i++) {
+            jobs[i] = new int[]{s[i], e[i], p[i]};
+        }
+        Arrays.sort(jobs, (a, b) -> a[0] - b[0]);
+        
+        // Update arrays after sorting
+        for(int i = 0; i < n; i++) {
+            s[i] = jobs[i][0];
+            e[i] = jobs[i][1];
+            p[i] = jobs[i][2];
+        }
+        
+        return rec(s , e , p , 0 );
+    }
+}

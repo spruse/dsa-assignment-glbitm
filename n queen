@@ -1,0 +1,67 @@
+class Solution {
+    public static boolean issafe(int row  , int col , char a[][]){
+        // these below 2 variables are used to save the row and column
+        int p = row;
+        int q = col;
+
+        // check upper-left diagonal
+        while(row >= 0 && col >= 0){
+            if(a[row][col] == 'Q') return false;
+            row--;
+            col--;
+        } 
+
+        row = p;
+        col = q;
+
+        // check left side
+        while(col >= 0){
+            if(a[row][col] == 'Q') return false;
+            col--;
+        }
+
+        row = p;
+        col = q;
+
+        // check lower-left diagonal
+        while(row < a.length && col >= 0){
+            if(a[row][col] == 'Q') return false;
+            row++;
+            col--;
+        }
+        return true;
+    }
+
+    public static void porn(List<List<String>> ans , char a[][] , int col , int n){
+        if(col == n){
+            List<String> q = new ArrayList<>();
+            for(int i = 0; i < n; i++){
+                q.add(new String(a[i]));
+            }
+            ans.add(q);
+            return;
+        }
+
+        for(int row = 0 ; row < n ; row++){
+            if( issafe(row , col , a) ){
+                a[row][col] = 'Q';
+                porn(ans , a , col+1 , n);
+                a[row][col] = '.';
+            }
+        }
+    }
+
+    public List<List<String>> solveNQueens(int n) {
+        List<List<String>> ans = new ArrayList<>();
+
+        char q[][]= new char[n][n];
+
+        for(int i = 0 ; i <n ; i++){
+            for(int j = 0 ; j < n ; j++){
+                q[i][j] = '.';
+            }
+        }
+        porn(ans , q , 0 ,n);
+        return ans;
+    }
+}

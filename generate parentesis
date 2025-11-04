@@ -1,0 +1,28 @@
+class Solution {
+    private static void solve(int open , int close , String ans , List<String> ls ){
+        if(open==0 && close==0){
+            ls.add(ans);
+            return;
+        }
+        if (open == close){
+            String s = ans +"(";
+            solve(open-1,close,s,ls);
+        }
+        else if(open==0){
+             String s = ans +")";
+            solve(open,close-1,s,ls);
+        }
+        else{
+            String s1 = ans +"(";
+            String s2 = ans +")";
+            solve(open,close-1,s2,ls);
+            solve(open-1,close,s1,ls);
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        List<String> ls = new ArrayList<>();
+        String s = "(";
+        solve(n-1,n,s,ls);
+        return ls;
+    }
+}

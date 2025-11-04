@@ -1,0 +1,20 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+                int max_p = 0;
+        int curr_p = 1;
+
+        for (int value : nums) {
+            curr_p *= value;
+            max_p = Math.max(curr_p, max_p);
+
+            // Reset curr_p to 1 if it becomes negative
+            if (curr_p < 0) {
+                curr_p = 1;
+            }
+        }
+
+        return max_p;
+    }
+
+    }
+}

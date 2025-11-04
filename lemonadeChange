@@ -1,0 +1,44 @@
+class Solution {
+
+    public boolean lemonadeChange(int[] a) {
+        int hash[] = new int [21];
+        int n = a.length;
+
+        for(int i = 0;  i<n ; i++){
+            if(a[i]==5){
+                hash[5]++;
+            }
+            else if(a[i]==10){
+                if(hash[5]==0){
+                    
+                    return false;
+                }
+                else{
+                    hash[5]--;
+                    hash[10]++;
+                }
+            }
+           else {
+                if(hash[5]<3 && hash[10]==0){
+                    return false;
+                }
+                if(hash[5]==0){
+                    
+                    return false;
+                }
+                
+                else{
+                    if(hash[10]==0){
+                        hash[5]-=3;
+                    }
+                    else{
+                    hash[5]--;
+                    hash[10]--;
+                    hash[20]++;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}

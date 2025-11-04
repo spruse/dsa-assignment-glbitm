@@ -1,0 +1,61 @@
+
+// User function Template for Java
+
+/*
+class Node {
+    int data;
+    Node left;
+    Node right;
+    Node(int data) {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+*/
+
+class Solution {
+
+    static class Tuple {
+        Node node;
+        int col;
+
+        public Tuple(Node _node, int _col) {
+            node = _node;
+            col = _col;
+        }
+    }
+
+    // Function to return a list of nodes visible from the top view
+    // from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        Queue<Tuple> q = new LinkedList<>();
+        q.offer(new Tuple(root, 0));
+
+        while (!q.isEmpty()) {
+            Tuple tup = q.poll();
+            Node node = tup.node;
+            int col = tup.col;
+
+            // Only store the first encountered node for each column
+            if (!map.containsKey(col)) {
+                map.put(col, node.data);
+            }
+
+            if (node.left != null) {
+                q.offer(new Tuple(node.left, col - 1));
+            }
+            if (node.right != null) {
+                q.offer(new Tuple(node.right, col + 1));
+            }
+        }
+
+        ArrayList<Integer> ans = new ArrayList<>();
+        for (int val : map.values()) {
+            ans.add(val);
+        }
+
+        return ans;
+    }
+}
